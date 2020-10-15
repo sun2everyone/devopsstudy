@@ -7,6 +7,7 @@ someinternalhost_IP = 10.166.0.5
 ## cloud-app:
 
 ```
+# Instance:
 gcloud compute instances create reddit-app \
 --boot-disk-size=10GB \
 --image-family ubuntu-1604-lts \
@@ -15,6 +16,9 @@ gcloud compute instances create reddit-app \
 --tags puma-server \
 --restart-on-failure \
 --metadata startup-script-url=https://raw.githubusercontent.com/sun2everyone/devopsstudy/cloud-testapp/startup.sh
+
+# Firewall rule:
+gcloud compute --project=devopsstudy firewall-rules create default-puma-server --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:9292 --source-ranges=0.0.0.0/0 --target-tags=puma-server
 ```
 
 testapp_IP = 35.228.212.144
