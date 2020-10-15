@@ -14,7 +14,7 @@ gcloud compute instances create reddit-app \
 --machine-type=f1-micro \
 --tags puma-server \
 --restart-on-failure \
---metadata-from-file startup-script=startup.sh
+--metadata startup-script-url=https://raw.githubusercontent.com/sun2everyone/devopsstudy/cloud-testapp/startup.sh
 ```
 
 testapp_IP = 35.228.212.144
