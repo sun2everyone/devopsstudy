@@ -1,0 +1,5 @@
+project = "myniceproject"
+ssh_pubkey_path = "~/.ssh/appuser.pub"
+ssh_privkey_path = "~/.ssh/appuser"
+disk_image = "image-or-image-family-name"
+tags = ["network-tag"]
