@@ -4,5 +4,6 @@
           "source_image_family": "ubuntu-1604-lts",
           "machine_type": "f1-micro",
           "disk_size": "10",
-          "tags":"my-tags"
+          "tags":"my-tags",
+          "ssh_username": "appuser"
   }
