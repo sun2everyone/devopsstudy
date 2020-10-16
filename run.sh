@@ -15,7 +15,7 @@ fi
 echo HOMEWORK:$BRANCH
 
 echo "Clone repository with tests"
-git clone -b $GROUP --single-branch $REPO
+git clone -b $GROUP --single-branch --branch 2019-02 $REPO
 
 if [ -f $HOMEWORK_RUN ]; then
 	echo "Run tests"
