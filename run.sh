@@ -18,7 +18,7 @@ echo "Clone repository with tests"
 git clone -b $GROUP --single-branch --branch 2019-02 $REPO
 
 ## Fixing tests
- sed -i ./otus-homeworks/homeworks/terraform-1/$BRANCH/controls/packer.rb -e "s/its('stdout').*$/its('stdout') {should eq '' }/"
+ sed -i ./otus-homeworks/homeworks/$BRANCH/controls/packer.rb -e "s/its('stdout').*$/its('stdout') {should eq '' }/"
 
 if [ -f $HOMEWORK_RUN ]; then
 	echo "Run tests"
