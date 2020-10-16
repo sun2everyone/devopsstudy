@@ -22,7 +22,7 @@ if [ -f $HOMEWORK_RUN ]; then
 	# Prepare network & run container
 	docker network create hw-test-net
 	docker run -d -v $(pwd):/srv -v /var/run/docker.sock:/tmp/docker.sock \
-		-e DOCKER_HOST=unix:///tmp/docker.sock --cap-add=NET_ADMIN -p 33433:22 --privileged \
+		-e DOCKER_HOST=unix:///tmp/docker.sock -e CHEF_LICENSE=accept --cap-add=NET_ADMIN -p 33433:22 --privileged \
 		--device /dev/net/tun --name hw-test --network hw-test-net $DOCKER_IMAGE
 	# Show versions & run tests
 	docker exec hw-test bash -c 'echo -=Get versions=-; ansible --version; ansible-lint --version; packer version; terraform version; tflint --version; docker version; docker-compose --version'
