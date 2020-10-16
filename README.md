@@ -24,3 +24,10 @@ gcloud compute --project=devopsstudy firewall-rules create default-puma-server -
 testapp_IP = 35.228.212.144
 
 testapp_port = 9292
+
+## packer-base:
+
+Packer practice.
+
+First, build ubuntu16.json, then immutable.json, then use create-reddit-vm.sh
+

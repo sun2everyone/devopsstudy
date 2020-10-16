@@ -1,0 +1,14 @@
+[Unit]
+Description = Reddit service systemd unit
+After = network.target network-online.target
+Wants = network-online.target
+Requires = dbus.service
+
+[Service]
+Type = simple
+WorkingDirectory = /home/appuser/reddit/
+ExecStart = /home/appuser/reddit/puma
+Restart = on-failure
+
+[Install]
+WantedBy = multi-user.target
