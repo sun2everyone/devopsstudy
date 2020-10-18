@@ -34,7 +34,6 @@ variable app_disk_image {
   description = "Base disk image for reddit app"
 }
 
-variable depends_on { 
-    default = [], 
-    type = "list"
+variable db_url { 
+    description = "Mongo database URL for reddit app"
 }

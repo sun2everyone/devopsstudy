@@ -27,6 +27,7 @@ module "app" {
   reddit_network = "${module.vpc.subnetwork_name}"
   app_tags = "${var.app_tags}"
   app_disk_image = "${var.app_disk_image}"
+  db_url = "${module.db.mongo_internal_ip}"
 }
 
 module "db" {

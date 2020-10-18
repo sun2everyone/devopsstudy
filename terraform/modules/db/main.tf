@@ -45,9 +45,9 @@ resource "google_compute_instance" "reddit_db" {
   network_interface {
     #network       = "${data.google_compute_network.reddit_network.self_link}"
     subnetwork    = "${data.google_compute_subnetwork.reddit_subnetwork.self_link}"
-    access_config = {
-      network_tier = "STANDARD"
-    } # Commented - do not have external IP, uncommented - Ephemeral IP
+    #access_config = {
+    #  network_tier = "STANDARD"
+    #} # Commented - do not have external IP, uncommented - Ephemeral IP
   }
 
   metadata {
@@ -60,13 +60,4 @@ resource "google_compute_instance" "reddit_db" {
     agent       = "false"
     private_key = "${file(var.ssh_privkey_path)}"
   }
-
-  #provisioner "file" {
-  #  source      = "files/puma.service"
-  #  destination = "/tmp/puma.service"
-  #}
-
-  #provisioner "remote-exec" {
-  #  script = "files/deploy.sh"
-  #}
 }
