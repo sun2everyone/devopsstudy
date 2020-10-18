@@ -14,11 +14,17 @@ data "google_compute_image" "reddit_base_image" {
   project = "${var.project}"
 }
 
+resource "google_compute_address" "app_ip" {
+  name = "reddit-app-ip"
+  network_tier = "STANDARD"
+}
+
 resource "google_compute_instance" "app" {
   name         = "reddit-app"
   machine_type = "f1-micro"
   zone         = "${var.zone}"
   tags         = "${var.tags}"
+  depends_on   = ["google_compute_address.app_ip"]
 
   boot_disk {
     initialize_params {
@@ -29,7 +35,10 @@ resource "google_compute_instance" "app" {
 
   network_interface {
     network       = "default"
-    access_config = {}        //Ephemeral IP
+    access_config = {
+      network_tier = "STANDARD"
+      nat_ip = "${google_compute_address.app_ip.address}"
+    }
   }
 
   metadata {
