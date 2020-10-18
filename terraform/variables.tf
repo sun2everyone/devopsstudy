@@ -20,11 +20,25 @@ variable ssh_privkey_path {
   description = "Path to the private ssh key for provisioners"
 }
 
-variable disk_image {
-  description = "VM boot disk image"
+variable reddit_network {
+  description = "Reddit machines network name"
+  default = "reddit-default"
 }
 
-variable tags {
-  description = "Network tags"
+variable app_tags {
+  description = "Network tags for reddit app"
   default     = []
+}
+
+variable db_tags {
+  description = "Network tags for reddit db"
+  default     = []
+}
+
+variable app_disk_image {
+  description = "Base disk image for reddit app"
+}
+
+variable db_disk_image {
+  description = "Base disk image for reddit db VM"
 }
