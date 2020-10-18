@@ -14,10 +14,15 @@ variable zone {
 
 variable reddit_network {
   description = "Reddit machines network name"
-  default = "reddit-default"
+  default     = "reddit-default"
 }
 
 variable ip_cidr_range {
   description = "Reddit machines subnetwork IP range"
-  default = "10.2.0.0/16"
+  default     = "10.2.0.0/16"
+}
+
+variable ssh_allowed_ips {
+  description = "Addresses to allow ssh connection"
+  default     = "0.0.0.0/0"
 }

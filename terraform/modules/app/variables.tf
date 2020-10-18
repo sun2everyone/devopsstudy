@@ -22,7 +22,7 @@ variable ssh_privkey_path {
 
 variable reddit_network {
   description = "Reddit machines network name"
-  default = "reddit-default"
+  default     = "reddit-default"
 }
 
 variable app_tags {
@@ -34,6 +34,11 @@ variable app_disk_image {
   description = "Base disk image for reddit app"
 }
 
-variable db_url { 
-    description = "Mongo database URL for reddit app"
+variable db_url {
+  description = "Mongo database URL for reddit app"
+}
+
+variable instance_name {
+  description = "App machine name"
+  default     = "reddit-app"
 }

@@ -1,9 +1,9 @@
 # Define external IP address
-resource "google_compute_address" "reddit_app_ip" {
-  name = "reddit-app-ip"
-  network_tier = "STANDARD"
-  project = "${var.project}"
-}
+#resource "google_compute_address" "reddit_app_ip" {
+#  name = "reddit-app-ip"
+#  network_tier = "STANDARD"
+#  project = "${var.project}"
+#}
 
 # Define firewall rule to access app by http
 resource "google_compute_firewall" "reddit_firewall_puma" {
@@ -24,7 +24,7 @@ data "google_compute_network" "reddit_network" {
 }
 
 data "google_compute_subnetwork" "reddit_subnetwork" {
-  name = "${var.reddit_network}"
+  name   = "${var.reddit_network}"
   region = "${var.region}"
 }
 
@@ -36,11 +36,12 @@ data "google_compute_image" "reddit_app_base_image" {
 
 # Define VM instance
 resource "google_compute_instance" "reddit_app" {
-  name         = "reddit-app"
+  name         = "${var.instance_name}"
   machine_type = "f1-micro"
   zone         = "${var.zone}"
   tags         = "${var.app_tags}"
-  depends_on   = ["google_compute_address.reddit_app_ip"]
+
+  #depends_on   = ["google_compute_address.reddit_app_ip"]
 
   boot_disk {
     initialize_params {
@@ -48,36 +49,35 @@ resource "google_compute_instance" "reddit_app" {
       image = "${data.google_compute_image.reddit_app_base_image.self_link}"
     }
   }
-
   network_interface {
     #network       = "${data.google_compute_network.reddit_network.self_link}"
-    subnetwork    = "${data.google_compute_subnetwork.reddit_subnetwork.self_link}"
+    subnetwork = "${data.google_compute_subnetwork.reddit_subnetwork.self_link}"
+
     access_config = {
       network_tier = "STANDARD"
-      nat_ip = "${google_compute_address.reddit_app_ip.address}"
+
+      #nat_ip = "${google_compute_address.reddit_app_ip.address}"
     }
   }
-
   metadata {
     ssh-keys = "appuser:${file(var.ssh_pubkey_path)}\nappuser1:${file(var.ssh_pubkey_path)}"
   }
-
   connection {
     type        = "ssh"
     user        = "appuser"
     agent       = "false"
     private_key = "${file(var.ssh_privkey_path)}"
   }
-  
   provisioner "local-exec" {
-    command  = "cp ${path.module}/files/puma.service ${path.module}/files/puma.service.tmp && sed -i ${path.module}/files/puma.service.tmp -e \"s/^Environment.*$/Environment=\"DATABASE_URL=${var.db_url}\"/\""
+    command = "cp ${path.module}/files/puma.service puma.service.tmp && sed -i puma.service.tmp -e \"s/^Environment.*$/Environment=\"DATABASE_URL=${var.db_url}\"/\""
   }
-
   provisioner "file" {
-    source      = "${path.module}/files/puma.service.tmp"
+    source      = "puma.service.tmp"
     destination = "/tmp/puma.service"
   }
-
+  provisioner "local-exec" {
+    command = "rm puma.service.tmp"
+  }
   provisioner "remote-exec" {
     script = "${path.module}/files/deploy.sh"
   }

@@ -25,16 +25,25 @@ variable reddit_network {
   default     = "reddit-default"
 }
 
+variable app_tags {
+  description = "Network tags for reddit app"
+  default     = []
+}
+
 variable db_tags {
   description = "Network tags for reddit db"
-  default     = ["reddit-db"]
+  default     = []
+}
+
+variable app_disk_image {
+  description = "Base disk image for reddit app"
 }
 
 variable db_disk_image {
   description = "Base disk image for reddit db VM"
 }
 
-variable instance_name {
-  description = "Database machine name"
-  default     = "reddit-db"
+variable env_postfix {
+  description = "postfix to make resources unique for environment"
+  default     = "test"
 }
