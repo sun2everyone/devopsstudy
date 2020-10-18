@@ -1,11 +1,17 @@
 terraform {
-  required_version = "0.11.11"
+  required_version = "0.11.11" #Protection from syntax breakage
 }
 
 provider "google" {
   version = "2.0.0"
   project = "${var.project}"
   region  = "${var.region}"
+}
+
+#use this for example to define something you dont control with TF
+data "google_compute_image" "reddit_base_image" {
+  family  = "${var.disk_image}"
+  project = "${var.project}"
 }
 
 resource "google_compute_instance" "app" {
@@ -16,7 +22,8 @@ resource "google_compute_instance" "app" {
 
   boot_disk {
     initialize_params {
-      image = "${var.disk_image}"
+      #image = "${var.disk_image}"
+      image = "${data.google_compute_image.reddit_base_image.self_link}"
     }
   }
 
