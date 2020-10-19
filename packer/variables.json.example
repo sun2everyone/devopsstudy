@@ -2,6 +2,7 @@
 {
           "project_id": "sampleproject",
           "source_image_family": "ubuntu-1604-lts",
+          "immutable_source_image_family": "my-immutable-base-image",
           "machine_type": "f1-micro",
           "disk_size": "10",
           "tags":"my-tags",
