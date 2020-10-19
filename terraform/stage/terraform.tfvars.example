@@ -1,0 +1,9 @@
+project = "myniceproject"
+ssh_pubkey_path = "~/.ssh/appuser.pub"
+ssh_privkey_path = "~/.ssh/appuser"
+app_disk_image = "app-base"
+db_disk_image = "db-base"
+app_tags = ["app-network-tag"]
+db_tags = ["db-network-tag"]
+reddit_network = "custom-network"
+env_postfix = "test"
