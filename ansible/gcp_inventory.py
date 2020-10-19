@@ -3,11 +3,14 @@ import subprocess, sys
 import json
 #check for gcloud 
 inventory={"db":{"hosts":[]},"app":{"hosts":[]},"_meta": {"hostvars": {}}}
-gcloud = subprocess.check_output(["which","gcloud"]).decode('utf-8')
+try:
+    gcloud = subprocess.check_output(["which","gcloud"]).decode('utf-8')
+except:
+    print(json.dumps(inventory))
+    sys.exit(0)
 if not '/gcloud' in gcloud:
     print(json.dumps(inventory))
     sys.exit(0)
-
 instances = json.loads(subprocess.check_output(["gcloud","compute","instances","list","--format=json"]).decode('utf-8'))
 for instance in instances:
     if instance['status']=='RUNNING':
