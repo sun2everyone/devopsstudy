@@ -68,17 +68,17 @@ resource "google_compute_instance" "reddit_app" {
     agent       = "false"
     private_key = "${file(var.ssh_privkey_path)}"
   }
-  provisioner "local-exec" {
-    command = "cp ${path.module}/files/puma.service puma.service.tmp && sed -i puma.service.tmp -e \"s/^Environment.*$/Environment=\"DATABASE_URL=${var.db_url}\"/\""
-  }
-  provisioner "file" {
-    source      = "puma.service.tmp"
-    destination = "/tmp/puma.service"
-  }
-  provisioner "local-exec" {
-    command = "rm puma.service.tmp"
-  }
-  provisioner "remote-exec" {
-    script = "${path.module}/files/deploy.sh"
-  }
+  # provisioner "local-exec" {
+  #   command = "cp ${path.module}/files/puma.service puma.service.tmp && sed -i puma.service.tmp -e \"s/^Environment.*$/Environment=\"DATABASE_URL=${var.db_url}\"/\""
+  # }
+  # provisioner "file" {
+  #   source      = "puma.service.tmp"
+  #   destination = "/tmp/puma.service"
+  # }
+  # provisioner "local-exec" {
+  #   command = "rm puma.service.tmp"
+  # }
+  # provisioner "remote-exec" {
+  #   script = "${path.module}/files/deploy.sh"
+  # }
 }

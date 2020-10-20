@@ -1,10 +1,10 @@
 ## Preparation
 
-Installation of gcloud: [https://cloud.google.com/sdk/docs/install](https://https://cloud.google.com/sdk/docs/install)
+Installation of gcloud: [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)
 
-Installation of packer: [https://www.packer.io/downloads.html](https://https://www.packer.io/downloads.html)
+Installation of packer: [https://www.packer.io/downloads.html](https://www.packer.io/downloads.html)
 
-Installation of terraform (use 0.11.11): [https://www.terraform.io/downloads.html](https://https://www.terraform.io/downloads.html)
+Installation of terraform (use 0.11.11): [https://www.terraform.io/downloads.html](https://www.terraform.io/downloads.html)
 
 Installation of ansible>=2.4 and cryptography==2.2.2:
 
@@ -45,3 +45,25 @@ testapp_port = 9292
 Packer practice.
 
 First, build ubuntu16.json, then immutable.json, then use create-reddit-vm.sh
+
+## Terraform
+
+Useful commands:
+
+```
+# Get modules
+terraform init #or
+terraform get
+
+# Plan
+terraform plan
+
+# Fromat all .tf files
+terraform fmt
+
+# Show resources
+terraform state list
+ 
+# Destroy single resource:
+terraform destroy -target module.db.google_compute_instance.reddit_db
+```
