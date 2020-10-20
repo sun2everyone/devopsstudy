@@ -16,6 +16,11 @@ if not '/gcloud' in gcloud:
 instances = json.loads(subprocess.check_output(["gcloud","compute","instances","list","--format=json"]).decode('utf-8'))
 for instance in instances:
     if instance['status']=='RUNNING':
+        if len(instance['networkInterfaces']):
+            if not 'accessConfigs' in instance['networkInterfaces'][0].keys():
+                continue
+        else:
+            continue
         if 'natIP' in instance['networkInterfaces'][0]['accessConfigs'][0].keys():
             inventory["_meta"]['hostvars'].update({instance['name']:{"ansible_host":instance['networkInterfaces'][0]['accessConfigs'][0]['natIP']}})
         if 'app' in instance['name']:
