@@ -1,0 +1,20 @@
+---
+- name: Provisioner for ruby app
+  hosts: all
+  become: True
+  gather_facts: False
+  tasks:
+  - name: update cache
+    apt: update_cache=yes
+
+  - name: install packages
+    apt: 
+      name: ['ruby-full', 'ruby-bundler', 'build-essential']
+      state: latest
+    register: install_log
+
+  - debug:
+      var: install_log['stdout_lines']
+
+  - debug:
+      var: install_log['stderr_lines']

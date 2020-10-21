@@ -40,11 +40,19 @@ testapp_IP = 35.228.212.144
 
 testapp_port = 9292
 
-## packer-base:
+## Packer:
+
+```
+packer validate -var-file=variables.json app.json
+
+packer build -var-file=variables.json app.json
+```
 
 Packer practice.
 
 First, build ubuntu16.json, then immutable.json, then use create-reddit-vm.sh
+
+With ansible provisioners - run from repository root!
 
 ## Terraform
 
