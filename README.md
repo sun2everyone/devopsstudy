@@ -66,4 +66,7 @@ terraform state list
  
 # Destroy single resource:
 terraform destroy -target=module.db.google_compute_instance.reddit_db
+
+# Destroy all compute instances:
+terraform state list | grep compute_instance. | xargs -n1 -I{} terraform destroy --auto-approve=true -target={}
 ```
