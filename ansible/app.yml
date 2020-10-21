@@ -1,0 +1,36 @@
+- name: Config app
+  hosts: app
+  gather_facts: False
+  vars:
+    db_host: 127.0.0.1
+  tasks:
+  - name: Add unit file for puma
+    become: True
+    copy:
+      src: files/puma.service
+      dest: /etc/systemd/system/puma.service
+    notify: reload puma
+
+  - name: get actual local db address from temp var if exists
+    set_fact:
+      db_host: "{{ hostvars['dummy_host']['db_ip'] }}"
+    when: hostvars['dummy_host']['db_ip'] is defined
+  
+  - name: Display configured db address
+    debug:
+      msg: "DB IP: {{ db_host }}"
+
+  - name: Add db ip address to app config
+    template:
+      src: templates/db_config.j2
+      dest: /home/appuser/db_config
+    notify: reload puma
+
+  - name: Systemd enable puma
+    become: True
+    systemd: name=puma enabled=yes
+  
+  handlers:
+  - name: reload puma
+    become: True
+    systemd: name=puma state=restarted

@@ -40,7 +40,6 @@
     copy:
       src: files/puma.service
       dest: /etc/systemd/system/puma.service
-    tags: app-tag
     notify: reload puma
 
   - name: get actual local net address from command line # Pass db ip via '-e db_ip=x.x.x.x'
@@ -56,12 +55,10 @@
     template:
       src: templates/db_config.j2
       dest: /home/appuser/db_config
-    tags: app-tag
     notify: reload puma
 
   - name: Systemd enable puma
     become: True
-    tags: app-tag
     systemd: name=puma enabled=yes
   
   handlers:
@@ -73,20 +70,17 @@
   hosts: app
   tags: deploy-tag
   tasks:
-
   - name: clone application
     git:
       repo: "https://github.com/express42/reddit.git"
       dest: /home/appuser/reddit
       version: monolith
-    tags: deploy-tag
     notify: reload puma
     
   - name: install bundler
     bundler:
       state: present
       chdir: /home/appuser/reddit
-    tags: deploy-tag
     notify: reload puma
     changed_when: True
 
