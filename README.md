@@ -65,5 +65,5 @@ terraform fmt
 terraform state list
  
 # Destroy single resource:
-terraform destroy -target module.db.google_compute_instance.reddit_db
+terraform destroy -target=module.db.google_compute_instance.reddit_db
 ```
