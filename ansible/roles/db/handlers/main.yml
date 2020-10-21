@@ -1,0 +1,5 @@
+---
+# handlers file for db
+- name: restart mongo
+  become: True
+  systemd: name=mongod state=restarted
