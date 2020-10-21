@@ -1,0 +1,41 @@
+---
+- name: Config db
+  hosts: db
+  gather_facts: False
+  vars:
+    mongo_bind_ip: 0.0.0.0
+  tasks:
+  - name: Gather facts
+    gather_facts:
+
+  - name: get actual local net address
+    set_fact:
+      mongo_bind_ip: "{{ ansible_ens4['ipv4']['address'] }}"
+    when: ansible_ens4 is defined and ansible_ens4['ipv4'] is defined and ansible_ens4['ipv4']['address'] is defined
+  
+  - name: Ip for database
+    debug: var=mongo_bind_ip
+
+  - name: saving var
+    changed_when: True
+    add_host: 
+      name: "dummy_host"
+      db_ip: " {{ mongo_bind_ip }}"
+    when: mongo_bind_ip != "0.0.0.0"
+
+  - name: Check variable
+    debug:
+      var: hostvars['dummy_host']['db_ip']
+
+  - name: Change mongo config to listen actual interface
+    become: True
+    template:
+      src: templates/mongod.conf.j2
+      dest: /etc/mongod.conf
+      mode: 0644
+    notify: restart mongo
+  
+  handlers:
+  - name: restart mongo
+    become: True
+    systemd: name=mongod state=restarted

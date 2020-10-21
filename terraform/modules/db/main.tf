@@ -47,9 +47,9 @@ resource "google_compute_instance" "reddit_db" {
     #network       = "${data.google_compute_network.reddit_network.self_link}"
     subnetwork = "${data.google_compute_subnetwork.reddit_subnetwork.self_link}"
 
-    #access_config = {
-    #  network_tier = "STANDARD"
-    #} # Commented - do not have external IP, uncommented - Ephemeral IP
+    access_config = {
+      network_tier = "STANDARD"
+    } # Commented - do not have external IP, uncommented - Ephemeral IP
   }
 
   metadata {

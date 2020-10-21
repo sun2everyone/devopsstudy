@@ -1,0 +1,94 @@
+---
+- name: Config db
+  hosts: db
+  tags: db-tag
+  vars:
+    mongo_bind_ip: 0.0.0.0
+  tasks:
+  # - name: wait for connection
+  #   wait_for: host="{{ ansible_host }}" port=22 delay=10  timeout=30
+
+  - name: get actual local net address
+    set_fact:
+      mongo_bind_ip: "{{ ansible_ens4['ipv4']['address'] }}"
+    when: ansible_ens4 is defined and ansible_ens4['ipv4'] is defined and ansible_ens4['ipv4']['address'] is defined
+  
+  - name: Ip for database
+    debug: var=mongo_bind_ip
+
+  - name: Change mongo config to listen actual interface
+    become: True
+    template:
+      src: templates/mongod.conf.j2
+      dest: /etc/mongod.conf
+      mode: 0644
+    notify: restart mongo
+  
+  handlers:
+  - name: restart mongo
+    become: True
+    systemd: name=mongod state=restarted
+
+- name: Config app
+  hosts: app
+  tags: app-tag
+  vars:
+    db_host: 127.0.0.1
+  tasks:
+  - name: Add unit file for puma
+    become: True
+    copy:
+      src: files/puma.service
+      dest: /etc/systemd/system/puma.service
+    notify: reload puma
+
+  - name: get actual local net address from command line # Pass db ip via '-e db_ip=x.x.x.x'
+    set_fact:
+      db_host: "{{ db_ip }}"
+    when: db_ip is defined
+  
+  - name: Display configured db address
+    debug:
+      msg: "DB IP: {{ db_host }}"
+
+  - name: Add db ip address to app config
+    template:
+      src: templates/db_config.j2
+      dest: /home/appuser/db_config
+    notify: reload puma
+
+  - name: Systemd enable puma
+    become: True
+    systemd: name=puma enabled=yes
+  
+  handlers:
+  - name: reload puma
+    become: True
+    systemd: name=puma state=restarted
+
+- name: Deploy app
+  hosts: app
+  tags: deploy-tag
+  tasks:
+  - name: clone application
+    git:
+      repo: "https://github.com/express42/reddit.git"
+      dest: /home/appuser/reddit
+      version: monolith
+    notify: reload puma
+    
+  - name: install bundler
+    bundler:
+      state: present
+      chdir: /home/appuser/reddit
+    notify: reload puma
+    changed_when: True
+
+  - name: Print link
+    debug:
+      msg: "App: http://{{ ansible_host }}:9292/"
+
+  handlers:
+  - name: reload puma
+    become: True
+    systemd: name=puma state=restarted
