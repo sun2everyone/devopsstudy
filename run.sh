@@ -19,8 +19,8 @@ git clone -b $GROUP --single-branch --branch 2019-02 $REPO
 
 ## Fixing tests
  sed -i ./otus-homeworks/homeworks/$BRANCH/controls/packer.rb -e "s/its('stdout').*$/its('stdout') {should eq '' }/"
- sed -i ./otus-homeworks/homeworks/$BRANCH/controls/ansible.rb "/ansible-lint/,+3 d"
- sed -i ./otus-homeworks/homeworks/$BRANCH/controls/ansible.rb "s/ansible\/roles/ansible\/\.import_roles:ansible\/roles/"
+ sed -i ./otus-homeworks/homeworks/$BRANCH/controls/ansible.rb -e "/ansible-lint/,+3 d"
+ sed -i ./otus-homeworks/homeworks/$BRANCH/controls/ansible.rb -e "s/ansible\/roles/ansible\/\.import_roles:ansible\/roles/"
 
 
 if [ -f $HOMEWORK_RUN ]; then
