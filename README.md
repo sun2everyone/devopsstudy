@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/sun2everyone/devopsstudy.svg?branch=master)](https://travis-ci.org/sun2everyone/devopsstudy)
+
 ## Preparation
 
 Installation of gcloud: [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)
@@ -11,6 +13,8 @@ Installation of ansible>=2.4 and cryptography==2.2.2:
 ```
 cd ansible && pip install -r requirements.txt
 ```
+
+Install Vagrant: [https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html)
 
 ## cloud-bastion:
 
@@ -81,7 +85,7 @@ terraform state list | grep compute_instance. | xargs -n1 -I{} terraform destroy
 
 ## Ansible
 
-Command examples (from **ansible/**):
+Command examples (from **devopsstudy/ansible**):
 
 ```
 # Encrypt credentials
@@ -93,4 +97,21 @@ ansible-playbook -i ./environments/test/gcp_inventory.py playbooks/ping.yml
 
 # View all gcp hosts (can be used with environment too)
 ansible-inventory -i ./gcp_inventory.py --graph
+```
+
+## Vagrant
+
+Vagrant-libvirt documentation: [https://github.com/vagrant-libvirt/vagrant-libvirt](https://github.com/vagrant-libvirt/vagrant-libvirt)
+
+Use vagrant docker-based with libvirt:
+
+```
+docker run -it --rm \
+  -e LIBVIRT_DEFAULT_URI \
+  -v /var/run/libvirt/:/var/run/libvirt/ \
+  -v ~/.vagrant.d:/.vagrant.d \
+  -v $(pwd):$(pwd) \
+  -w $(pwd) \
+  vagrantlibvirt/vagrant-libvirt:latest \
+    vagrant status
 ```
