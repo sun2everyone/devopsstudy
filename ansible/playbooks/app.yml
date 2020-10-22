@@ -1,0 +1,10 @@
+---
+- name: Config app
+  hosts: app
+  gather_facts: False
+  roles:
+  - name: app
+  
+  - name: jdauphant.nginx
+    become: True
+    

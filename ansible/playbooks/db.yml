@@ -1,0 +1,6 @@
+---
+- name: Config db
+  hosts: db
+  gather_facts: True
+  roles:
+  - name: db

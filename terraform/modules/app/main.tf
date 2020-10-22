@@ -19,6 +19,19 @@ resource "google_compute_firewall" "reddit_firewall_puma" {
   target_tags   = "${var.app_tags}"
 }
 
+resource "google_compute_firewall" "reddit_firewall_http" {
+  name    = "allow-http-${var.reddit_network}"
+  network = "${data.google_compute_network.reddit_network.self_link}"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = "${var.app_tags}"
+}
+
 data "google_compute_network" "reddit_network" {
   name = "${var.reddit_network}"
 }

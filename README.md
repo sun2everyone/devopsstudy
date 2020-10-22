@@ -78,3 +78,19 @@ terraform destroy -target=module.db.google_compute_instance.reddit_db
 # Destroy all compute instances:
 terraform state list | grep compute_instance. | xargs -n1 -I{} terraform destroy --auto-approve=true -target={}
 ```
+
+## Ansible
+
+Command examples (from **ansible/**):
+
+```
+# Encrypt credentials
+ansible-vault encrypt environments/*/credentials.yml
+EDITOR=nano ansible-vault edit ./environments/test/credentials.yml
+
+# Run playbook in environment
+ansible-playbook -i ./environments/test/gcp_inventory.py playbooks/ping.yml
+
+# View all gcp hosts (can be used with environment too)
+ansible-inventory -i ./gcp_inventory.py --graph
+```
