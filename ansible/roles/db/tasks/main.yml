@@ -1,8 +1,8 @@
 ---
 # tasks file for db
 - debug:
-    msg: "ENVIRONMENT - {{ working_environment }}"
-    
+    msg: "ENVIRONMENT - {{ working_environment | upper }}"
+
 - name: get actual local net address
   set_fact:
     mongo_bind_ip: "{{ ansible_ens4['ipv4']['address'] }}"
