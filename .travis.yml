@@ -2,7 +2,7 @@ dist: trusty
 sudo: required
 language: bash
 before_install:
-- curl https://raw.githubusercontent.com/sun2everyone/devopsstudy/terraform-1/run.sh | bash
+- curl https://raw.githubusercontent.com/sun2everyone/devopsstudy/ansible-3/run.sh | bash
 notifications:
   slack:
     secure: Vu5YlF1EnQJFjqReLJsZLdkpSbLt8GQA5jLXEe6tm9u1EBFIETeqAwW6cKj1LPxWzQGPBWV/KGJ5fI30ZDDFhrKf72S+4s/1Fo5doxkXuQkFcP+SE8V9n8QsLQbQfd4G994bjgtkXUFUSytQQw0UM2VTuBIWka/lJrrcA/yiaxQTf+i7QdRMrrEInPgAhmoRv6ZHzmDbAc0MVrTcegZVt1Z7BkIkgSnbltV+9P2/STFVqDNYzomCKeYrCiPhP41cfc1NJAgQEBNVImq7kcywV3IJwubvTvi/pUNkkz73D0xuBOLmPMJF8WWmR+J3MQu4ydKX05alykO7lCiELIQe9R4q1UplkzKmJptTJoZSwzwdFn/00Xs8kQ4dThLVFhaTKlNcem2fAxuYI0AcOxKVINC4id9skFh9DP3Ak3stZwvtnUTa9iRH5aMXQY8OBpKDzqAXM5tyzWr4tMG6I+cNjob5pDYviXGh5bGDZhDzSwihoJcdDPPUd9Em7HDOxic71YZKEDEo7BuR8Cdw+IQd/ZMg+NlZx27vRGVhNkMatBXMIkAQfxS74+sj0C09jETKcZsond3dtHJXZ7kG046Gep2aJVbIUDHyBSi5lwNEIL5Kll0K2lBMgmNIgYqxiNeHiNjf8Eu98bTMtDu5DII+sqHew/0CH0OmwUIoto+OzD4=

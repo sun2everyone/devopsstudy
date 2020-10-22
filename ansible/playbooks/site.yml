@@ -1,6 +1,7 @@
 ---
-- name: Warning
-  hosts: all
+- name: Deploy app
+  hosts: app
+  gather_facts: False
   tasks:
   - debug:
       msg: "[WARNING] Run this playbook in environments context to auto-specify correct database linking!"
