@@ -4,6 +4,7 @@
   tasks:
   - debug:
       msg: "[WARNING] Run this playbook in environments context to auto-specify correct database linking!"
+- import_playbook: users.yml
 - import_playbook: db.yml
 - import_playbook: app.yml
 - import_playbook: deploy.yml

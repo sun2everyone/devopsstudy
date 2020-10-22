@@ -8,3 +8,4 @@ packer/variables.json
 .vscode/
 *.retry
 ansible/.import_roles
+credentials.yml
