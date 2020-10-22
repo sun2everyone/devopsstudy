@@ -1,0 +1,9 @@
+---
+- name: Check if host is alive and accepts ssh
+  hosts: all
+  gather_facts: False
+  tasks:
+  - ping:
+
+  - debug:
+      var: ansible_host

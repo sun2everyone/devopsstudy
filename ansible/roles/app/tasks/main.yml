@@ -1,5 +1,8 @@
 ---
 # tasks file for app
+- debug:
+    msg: "ENVIRONMENT - {{ working_environment | upper }}"
+
 - name: Add unit file for puma
   become: True
   copy:

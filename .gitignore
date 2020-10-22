@@ -7,3 +7,4 @@ packer/variables.json
 .terraform/
 .vscode/
 *.retry
+ansible/.import_roles

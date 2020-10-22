@@ -1,0 +1,9 @@
+---
+- name: Warning
+  hosts: all
+  tasks:
+  - debug:
+      msg: "[WARNING] Run this playbook in environments context to auto-specify correct database linking!"
+- import_playbook: db.yml
+- import_playbook: app.yml
+- import_playbook: deploy.yml
