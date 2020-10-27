@@ -6,5 +6,10 @@
   - name: app
   
   - name: jdauphant.nginx
+    user: root
     become: True
+    nginx_sites:
+      default:
+      - listen 80
+      - location / { proxy_pass http://127.0.0.1:9292/; }
     

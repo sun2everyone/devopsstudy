@@ -4,11 +4,11 @@ After=network.target
 
 [Service]
 Type=simple
-User=appuser
-WorkingDirectory=/home/appuser/reddit
+User={{ deploy_user }}
+WorkingDirectory=/home/{{ deploy_user }}/reddit
 ExecStart=/bin/bash -lc 'puma'
 Restart=always
-EnvironmentFile=/home/appuser/db_config
+EnvironmentFile=/home/{{ deploy_user }}/db_config
 
 [Install]
 WantedBy=multi-user.target
