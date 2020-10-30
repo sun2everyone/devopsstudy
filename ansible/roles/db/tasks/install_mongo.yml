@@ -8,10 +8,12 @@
   tags: install
   apt_repository:
     repo: "{{ mongo_repository }}"
+  register: add_repo
 
 - name: update cache
   tags: install
   apt: update_cache=yes
+  when: mongo_update_cache_on_install or add_repo.changed
 
 - name: install packages
   tags: install

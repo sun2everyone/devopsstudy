@@ -6,3 +6,8 @@
     dest: /etc/mongod.conf
     mode: 0644
   notify: restart mongo
+
+- name: Enable mongo
+  become: True
+  tags: config
+  systemd: name=mongod enabled=yes

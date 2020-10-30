@@ -115,3 +115,57 @@ docker run -it --rm \
   vagrantlibvirt/vagrant-libvirt:latest \
     vagrant status
 ```
+
+## Python virtualenv
+
+```
+ apt-get install python-virtualenv
+apt-get install python3-venv
+apt-get install virtualenvwrapper
+#cd ansible && virtualenv .venv #Python2
+cd ansible && python3 -m venv .venv #Python3
+
+#start working in venv
+source .venv/bin/activate
+
+#install requirements
+pip install --upgrade pip
+pip install -r requirements.txt
+
+#after work is done
+deactivate
+```
+
+## Molecule & Tesinfra
+
+[Testinfra documentation](https://testinfra.readthedocs.io/en/latest/modules.html)
+
+*Work in venv!*
+
+cd **ansible/roles/db**
+
+```
+#initalize role testing template
+molecule init scenario -r db -d vagrant --verifier-name testinfra default
+
+#db/molecule/default/molecule.yml - provider settings
+
+#create test vm
+molecule create
+
+#list instances
+molecule list
+
+#connect for debug
+molecule login -h instance
+
+#db/molecule/default/converge.yml - playbook for provisioning with role, vars go here
+
+#Provisioning with role
+molecule converge
+
+#db/molecule/default/tests/test_default.py - testinfra test code
+
+#Testing role
+molecule verify
+```
