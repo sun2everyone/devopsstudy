@@ -3,6 +3,7 @@
   gather_facts: False
   tasks:
   - name: clone application
+    tags: deploy
     git:
       repo: "https://github.com/express42/reddit.git"
       dest: /home/{{ deploy_user }}/reddit
@@ -10,6 +11,7 @@
     notify: reload puma
     
   - name: install bundler
+    tags: deploy
     bundler:
       state: present
       chdir: /home/{{ deploy_user }}/reddit
@@ -17,6 +19,7 @@
     changed_when: True
 
   - name: Print link
+    tags: deploy
     debug:
       msg: "Puma: http://{{ ansible_host }}:9292/ Http: http://{{ ansible_host }}/"
 

@@ -8,6 +8,7 @@
   - name: jdauphant.nginx
     user: root
     become: True
+    tags: deploy
     nginx_sites:
       default:
       - listen 80

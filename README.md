@@ -97,6 +97,9 @@ ansible-playbook -i ./environments/test/gcp_inventory.py playbooks/ping.yml
 
 # View all gcp hosts (can be used with environment too)
 ansible-inventory -i ./gcp_inventory.py --graph
+
+# Deploy testapp on terraform-provisioned infra
+ansible-playbook -i environments/test/gcp_inventory.py --tags=config,deploy playbooks/site.yml
 ```
 
 ## Vagrant

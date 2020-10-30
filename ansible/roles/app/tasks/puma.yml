@@ -5,16 +5,15 @@
   template:
     src: puma.service.j2
     dest: /etc/systemd/system/puma.service
-  notify: reload puma
 
 - name: get actual local db address from temp var if exists
-  tags: install
+  tags: config
   set_fact:
     db_host: "{{ hostvars['dummy_host']['db_ip'] }}"
   when: hostvars['dummy_host'] is defined and hostvars['dummy_host']['db_ip'] is defined
 
 - name: Display configured db address
-  tags: install
+  tags: config
   debug:
     msg: "DB IP: {{ db_host }}"
 
