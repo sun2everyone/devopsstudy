@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    mongo_bind_ip: "0.0.0.0"
+    mongo_port: "27017"
+    # To save test time:
+    mongo_update_cache_on_install: False
+  tasks:
+    - name: "Include db"
+      include_role:
+        name: "db"

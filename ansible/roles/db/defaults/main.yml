@@ -3,3 +3,4 @@
 mongo_bind_ip: 0.0.0.0
 mongo_port: 27017
 working_environment: local
+mongo_update_cache_on_install: True

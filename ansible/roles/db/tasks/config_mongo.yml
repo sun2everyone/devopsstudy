@@ -1,0 +1,13 @@
+- name: Change mongo config to listen actual interface
+  become: True
+  tags: config
+  template:
+    src: mongod.conf.j2
+    dest: /etc/mongod.conf
+    mode: 0644
+  notify: restart mongo
+
+- name: Enable mongo
+  become: True
+  tags: config
+  systemd: name=mongod enabled=yes

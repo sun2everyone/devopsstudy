@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/sun2everyone/devopsstudy.svg?branch=master)](https://travis-ci.org/sun2everyone/devopsstudy)
+
 ## Preparation
 
 Installation of gcloud: [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)
@@ -11,6 +13,8 @@ Installation of ansible>=2.4 and cryptography==2.2.2:
 ```
 cd ansible && pip install -r requirements.txt
 ```
+
+Install Vagrant: [https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html)
 
 ## cloud-bastion:
 
@@ -81,7 +85,7 @@ terraform state list | grep compute_instance. | xargs -n1 -I{} terraform destroy
 
 ## Ansible
 
-Command examples (from **ansible/**):
+Command examples (from **devopsstudy/ansible**):
 
 ```
 # Encrypt credentials
@@ -93,4 +97,78 @@ ansible-playbook -i ./environments/test/gcp_inventory.py playbooks/ping.yml
 
 # View all gcp hosts (can be used with environment too)
 ansible-inventory -i ./gcp_inventory.py --graph
+
+# Deploy testapp on terraform-provisioned infra
+ansible-playbook -i environments/test/gcp_inventory.py --tags=config,deploy playbooks/site.yml
+```
+
+## Vagrant
+
+Vagrant-libvirt documentation: [https://github.com/vagrant-libvirt/vagrant-libvirt](https://github.com/vagrant-libvirt/vagrant-libvirt)
+
+Use vagrant docker-based with libvirt:
+
+```
+docker run -it --rm \
+  -e LIBVIRT_DEFAULT_URI \
+  -v /var/run/libvirt/:/var/run/libvirt/ \
+  -v ~/.vagrant.d:/.vagrant.d \
+  -v $(pwd):$(pwd) \
+  -w $(pwd) \
+  vagrantlibvirt/vagrant-libvirt:latest \
+    vagrant status
+```
+
+## Python virtualenv
+
+```
+ apt-get install python-virtualenv
+apt-get install python3-venv
+apt-get install virtualenvwrapper
+#cd ansible && virtualenv .venv #Python2
+cd ansible && python3 -m venv .venv #Python3
+
+#start working in venv
+source .venv/bin/activate
+
+#install requirements
+pip install --upgrade pip
+pip install -r requirements.txt
+
+#after work is done
+deactivate
+```
+
+## Molecule & Tesinfra
+
+[Testinfra documentation](https://testinfra.readthedocs.io/en/latest/modules.html)
+
+*Work in venv!*
+
+cd **ansible/roles/db**
+
+```
+#initalize role testing template
+molecule init scenario -r db -d vagrant --verifier-name testinfra default
+
+#db/molecule/default/molecule.yml - provider settings
+
+#create test vm
+molecule create
+
+#list instances
+molecule list
+
+#connect for debug
+molecule login -h instance
+
+#db/molecule/default/converge.yml - playbook for provisioning with role, vars go here
+
+#Provisioning with role
+molecule converge
+
+#db/molecule/default/tests/test_default.py - testinfra test code
+
+#Testing role
+molecule verify
 ```

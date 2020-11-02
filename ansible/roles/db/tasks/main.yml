@@ -4,14 +4,17 @@
     msg: "ENVIRONMENT - {{ working_environment | upper }}"
 
 - name: get actual local net address
+  tags: config
   set_fact:
     mongo_bind_ip: "{{ ansible_ens4['ipv4']['address'] }}"
   when: ansible_ens4 is defined and ansible_ens4['ipv4'] is defined and ansible_ens4['ipv4']['address'] is defined
 
 - name: Ip for database
+  tags: config
   debug: var=mongo_bind_ip
 
 - name: saving var
+  tags: config
   changed_when: True
   add_host: 
     name: "dummy_host"
@@ -19,13 +22,12 @@
   when: mongo_bind_ip != "0.0.0.0"
   
 - name: Check variable
+  tags: config
   debug:
     var: hostvars['dummy_host']['db_ip']
 
-- name: Change mongo config to listen actual interface
+- include: install_mongo.yml
   become: True
-  template:
-    src: mongod.conf.j2
-    dest: /etc/mongod.conf
-    mode: 0644
-  notify: restart mongo
+
+- include: config_mongo.yml
+  become: True
