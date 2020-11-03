@@ -11,12 +11,13 @@ packer/variables.json
 .terraform/
 # Ansible
 *.retry
+ansible/*.log
 ansible/.import_roles
 credentials.yml
 jdauphant.nginx
 # Vagrant & molecule
 .vagrant/
-*.log
+/*.log
 *.pyc
 .molecule
 .cache
