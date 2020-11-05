@@ -172,3 +172,24 @@ molecule converge
 #Testing role
 molecule verify
 ```
+
+## Docker machine
+
+With gcloud. Needs installed docker, docker machine, gloud sdk. Before usage:
+
+```
+gcloud init
+cloud auth application-default login
+```
+
+Create host:
+
+```
+docker-machine create --driver google \
+--google-machine-image https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts \
+--google-machine-type g1-small \
+--google-zone europe-north1-a \
+docker-host
+```
+
+or use script `./docker-monolith/create_machine.sh`
