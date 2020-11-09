@@ -193,3 +193,10 @@ docker-host
 ```
 
 or use script `./docker-monolith/create_machine.sh`
+
+Switch to remote docker context for current tty:
+
+```
+eval $(docker-machine env docker-host) #remote docker
+eval $(docker-machine env --unset) #local docker
+```
