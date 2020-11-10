@@ -179,7 +179,7 @@ With gcloud. Needs installed docker, docker machine, gloud sdk. Before usage:
 
 ```
 gcloud init
-cloud auth application-default login
+gcloud auth application-default login
 ```
 
 Create host:
