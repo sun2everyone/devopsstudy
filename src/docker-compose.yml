@@ -1,0 +1,52 @@
+version: '3.3'
+services:
+  post_db:
+    image: mongo:3.2
+    volumes:
+      - post-db:/data/db
+    networks:
+      reddit-back:
+        aliases:
+        - post_db
+        - comment_db
+  ui:
+    build: ./ui
+    image: reddit/ui:${REDDIT_UI_VER:-1.0}
+    depends_on: 
+    - post
+    - comment
+    ports:
+      - ${REDDIT_UI_PUBLIC_PORT:-9292}:9292/tcp
+    networks:
+      - reddit-front
+  post:
+    build: ./post-py
+    image: reddit/post:${REDDIT_POST_VER:-1.0}
+    depends_on: 
+    - post_db
+    networks:
+      - reddit-back
+      - reddit-front
+  comment:
+    build: ./comment
+    image: reddit/comment:${REDDIT_COMMENT_VER:-1.0}
+    depends_on: 
+    - post_db
+    networks:
+      - reddit-back
+      - reddit-front
+
+volumes:
+  post-db:
+
+networks:
+  reddit-front:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.2.0/24"
+  reddit-back:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.1.0/24"
