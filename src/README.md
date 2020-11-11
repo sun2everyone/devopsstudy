@@ -26,3 +26,7 @@ terraform apply
 ```
 
 Run containers in docker-machine using `./run_containers.sh`
+
+From docker-4 you'd better use **docker-compose**. To set variables other than defaults use `.env` file (example included).
+
+`COMPOSE_PROJECT_NAME=reddit` sets container and networks prefix.
