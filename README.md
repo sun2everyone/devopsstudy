@@ -200,3 +200,65 @@ Switch to remote docker context for current tty:
 eval $(docker-machine env docker-host) #remote docker
 eval $(docker-machine env --unset) #local docker
 ```
+
+## Gitlab
+
+How to deploy gitlab instance. Commands from `./gitlab-ci`
+
+### Step 1: login to gce (assuming you have ansible,terraform,glcoud installed)
+
+```
+gcloud auth login
+gcloud auth application-default login
+```
+
+### Step 2: create gitlab VM
+
+```
+# Adjust variables
+cp terraform.tfvars.example terraform.tfvars
+nano terraform.tfvars
+
+# Get external ip and terraform plan
+./tf_external_ip_rule.sh
+
+# Start VM
+terraform apply
+
+```
+
+### Step 3: Provision gitlab VM
+
+`````
+ansible-playbook -e gitlab_external_ip=<x.x.x.x> playbooks/gitlab_provision.yml
+`````
+
+### Step 4: How to run and stop gitlab
+
+```
+# Run via compose
+ansible-plybook playbooks/gitlab_run.yml #long load! You may login via ssh and check with `docker logs -f`
+# Stop server
+gcloud compute instances stop server-gitlab
+# or compose-down
+ansible-playbook playbooks/gitlab_stop.yml
+```
+
+### Step 5: add gitlab runner
+
+```
+ansible-playbook playbooks/gitlab_runner_provision.yml
+```
+
+Please do this manual steps to register it:
+
+1. Obtain token via gitlab web interface: Settings -> CI/CD -> Runners -> Expand
+2. login via: `ssh -i appuser appuser@$gitlab_ip`
+3. Register runner with token: `docker exec -it gitlab_gitlab-runner_1 gitlab-runner register --run-untagged --locked=false` specifying address `http://web/`
+
+### Step 6: Cleanup
+
+```
+# Destroy resources to save money
+terraform destroy
+```
