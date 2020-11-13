@@ -1,0 +1,38 @@
+---
+- name: Gitlab runner provision
+  hosts: gitlab
+  vars:
+    gitlab_user: appuser
+
+  tasks:
+  - name: Working with host
+    debug:
+      var: ansible_host
+
+  - name: Make necessary dirs for gitlab-runner container
+    become: True
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: "{{ gitlab_user }}"
+    with_items:
+    - /srv/gitlab-runner/config
+
+  - name: Update gitlab docker-compose file with gitlab-runner
+    template:
+      src: ../templates/docker-compose-runner.yml.j2
+      dest: /srv/gitlab/docker-compose.yml
+      owner: "{{ gitlab_user }}"
+
+  - name: Restart composed gitlab to run gitlab-runner
+    docker_compose:
+      project_src: /srv/gitlab
+      state: present
+
+  - name: Register runner with gitlab
+    debug:
+      msg: |
+        Please do it manually:
+        1. Obtain token via gitlab web interface Settings -> CI/CD -> Runners -> Expand
+        2. login via: ssh -i appuser appuser@{{ ansible_host }}
+        3. Register runner with token: docker exec -it gitlab-runner gitlab-runner register --run-untagged --locked=false

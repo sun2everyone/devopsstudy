@@ -1,0 +1,8 @@
+  - name: Control gitlab via docker-compose
+    hosts: gitlab
+    tasks:
+    - name: Start gitlab
+      tags: compose-up
+      docker_compose:
+        project_src: /srv/gitlab
+        state: present

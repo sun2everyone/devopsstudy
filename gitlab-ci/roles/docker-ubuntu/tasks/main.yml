@@ -1,0 +1,22 @@
+- name: Add gpg key for docker
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+    
+- name: Add docker repository
+  apt_repository: 
+    repo: deb https://download.docker.com/linux/ubuntu {{ docker_ubuntu_version }} stable
+
+- name: Update cache
+  apt:
+    update_cache: True
+
+- name: Install docker
+  apt:
+    name: ["docker-ce","docker-compose"]
+    state: latest
+
+- name: Enable docker
+  service:
+    name: docker
+    enabled: True

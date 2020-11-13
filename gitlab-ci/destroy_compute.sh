@@ -1,0 +1,1 @@
+../terraform/destroy_compute.sh
